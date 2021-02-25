@@ -1,0 +1,74 @@
+version: 1
+send_anonymous_usage_stats: true
+project_id: 8d73bee1-5b29-467d-8df7-4d6c5d24b72b
+plugins:
+  extractors:
+  - name: tap-postgres
+    variant: transferwise
+    pip_url: pipelinewise-tap-postgres
+    config:
+      user: 
+      dbname: 
+      host: 
+      port: 
+      default_replication_method: INCREMENTAL
+      filter_schemas: public
+    select:
+    - public-nutritionfacts_birthyearstats.*
+    - public-nutritionfacts_channelstatistics.*
+    - public-nutritionfacts_facilitystatistics.*
+    - public-nutritionfacts_genderstats.*
+    - public-nutritionfacts_instance.*
+    - public-nutritionfacts_iplocation.*
+    - public-nutritionfacts_message.*
+    - public-nutritionfacts_pingback.*
+    - public-nutritionfacts_statisticspingback.*
+    metadata:
+      public-nutritionfacts_birthyearstats:
+        replication-method: INCREMENTAL
+        replication-key: id
+      public-nutritionfacts_channelstatistics:
+        replication-method: INCREMENTAL
+        replication-key: id
+      public-nutritionfacts_facilitystatistics:
+        replication-method: INCREMENTAL
+        replication-key: id
+      public-nutritionfacts_genderstats:
+        replication-method: INCREMENTAL
+        replication-key: id
+      public-nutritionfacts_instance:
+        replication-method: INCREMENTAL
+        replication-key: last_seen 
+      public-nutritionfacts_iplocation:
+        replication-method: FULL_TABLE
+      public-nutritionfacts_message:
+        replication-method: FULL_TABLE
+      public-nutritionfacts_pingback:
+        replication-method: INCREMENTAL
+        replication-key: id
+      public-nutritionfacts_statisticspingback:
+        replication-method: INCREMENTAL
+        replication-key: id
+  loaders:
+  - name: pipelinewise-target-bigquery
+    namespace: pipelinewise_target_bigquery
+    pip_url: git+https://github.com/transferwise/pipelinewise-target-bigquery.git@v1.0.1
+    executable: target-bigquery
+    settings:
+    - name: dataset_id
+    - name: project_id
+    - name: temp_schema
+    - name: default_target_schema
+    - name: schema_mapping
+    - name: default_target_schema_select_permission
+    - name: data_flattening_max_level
+    - name: batch_size
+    - name: add_metadata_columns
+    - name: hard_delete
+    config:
+      dataset_id: 
+      project_id: 
+      data_flattening_max_level: 2
+      batch_size: 100000
+      default_target_schema: 
+     

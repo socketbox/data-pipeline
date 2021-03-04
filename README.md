@@ -52,6 +52,8 @@ meltano config pipelinewise-target-bigquery set dataset_id telemetry-meltano
 
 meltano config pipelinewise-target-bigquery set project_id telemetry-187418
 
+meltano add transformer dbt
+
 Notes:
 
 pipelinewise-target-bigquery won't work on 3.8.x or higher, only 3.7.x (used 3.7.10 for install)

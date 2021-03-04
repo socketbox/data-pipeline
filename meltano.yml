@@ -5,12 +5,10 @@ plugins:
   extractors:
   - name: tap-postgres
     variant: transferwise
-    pip_url: pipelinewise-tap-postgres
+    pip_url: git+https://github.com/transferwise/pipelinewise-tap-postgres.git@v1.7.1
     config:
-      user: 
-      dbname: 
-      host: 
-      port: 
+      dbname: nutritionfacts
+      port: 5432
       default_replication_method: INCREMENTAL
       filter_schemas: public
     select:
@@ -38,7 +36,7 @@ plugins:
         replication-key: id
       public-nutritionfacts_instance:
         replication-method: INCREMENTAL
-        replication-key: last_seen 
+        replication-key: last_seen
       public-nutritionfacts_iplocation:
         replication-method: FULL_TABLE
       public-nutritionfacts_message:
@@ -55,6 +53,7 @@ plugins:
     pip_url: git+https://github.com/transferwise/pipelinewise-target-bigquery.git@v1.0.1
     executable: target-bigquery
     settings:
+    - name: location
     - name: dataset_id
     - name: project_id
     - name: temp_schema
@@ -66,9 +65,14 @@ plugins:
     - name: add_metadata_columns
     - name: hard_delete
     config:
-      dataset_id: 
-      project_id: 
+      location: US
+      dataset_id: telemetry_meltano
       data_flattening_max_level: 2
       batch_size: 100000
-      default_target_schema: 
-     
+      default_target_schema: public
+  transformers:
+  - name: dbt
+    pip_url: dbt==0.16.1
+  files:
+  - name: dbt
+    pip_url: git+https://gitlab.com/meltano/files-dbt.git

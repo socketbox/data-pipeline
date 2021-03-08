@@ -1,5 +1,4 @@
-###Creating a meltano configuration:
-
+### Creating base meltano project for LE:
 ```
 pyenv virtualenv 3.7.10 leq-meltano-pipelinewise
 
@@ -52,8 +51,21 @@ meltano config pipelinewise-target-bigquery set dataset_id telemetry-meltano
 
 meltano config pipelinewise-target-bigquery set project_id telemetry-187418
 
-Notes:
+meltano add transformer dbt
+```
+### Creating the LE Meltano Project
+1. Create virtualenv with Python 3.7.10
+1. Download source
+2. cd ./data-pipeline
+2. `pip install --upgrade pip`
+3. `pip install -r requirements.txt`
+4. `meltano install`
+5. `meltano ui`
+6. Connect to localhost:5000 with browser
 
+### Docker
+`docker run -d -p 5000:5000 <image>`
+
+Notes:
 pipelinewise-target-bigquery won't work on 3.8.x or higher, only 3.7.x (used 3.7.10 for install)
 
-```

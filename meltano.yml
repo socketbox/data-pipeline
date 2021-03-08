@@ -23,30 +23,62 @@ plugins:
     - public-nutritionfacts_statisticspingback.*
     metadata:
       public-nutritionfacts_birthyearstats:
-        replication-method: INCREMENTAL
-        replication-key: id
+        replication-method: FULL_TABLE
       public-nutritionfacts_channelstatistics:
-        replication-method: INCREMENTAL
-        replication-key: id
+        replication-method: FULL_TABLE
       public-nutritionfacts_facilitystatistics:
-        replication-method: INCREMENTAL
-        replication-key: id
+        replication-method: FULL_TABLE
       public-nutritionfacts_genderstats:
-        replication-method: INCREMENTAL
-        replication-key: id
+        replication-method: FULL_TABLE
       public-nutritionfacts_instance:
-        replication-method: INCREMENTAL
-        replication-key: last_seen
+        replication-method: FULL_TABLE
       public-nutritionfacts_iplocation:
         replication-method: FULL_TABLE
       public-nutritionfacts_message:
         replication-method: FULL_TABLE
       public-nutritionfacts_pingback:
-        replication-method: INCREMENTAL
-        replication-key: id
+        replication-method: FULL_TABLE
       public-nutritionfacts_statisticspingback:
-        replication-method: INCREMENTAL
-        replication-key: id
+        replication-method: FULL_TABLE
+  - name: tap-postgres--kdp
+    namespace: tap_postgres__kdp
+    variant: transferwise
+    pip_url: git+https://github.com/transferwise/pipelinewise-tap-postgres.git@v1.7.1
+    config:
+      dbname: kolibri
+      port: 5432
+      default_replication_method: INCREMENTAL
+      filter_schemas: public
+    select:
+    - public-nutritionfacts_birthyearstats.*
+    - public-nutritionfacts_channelstatistics.*
+    - public-nutritionfacts_facilitystatistics.*
+    - public-nutritionfacts_genderstats.*
+    - public-nutritionfacts_instance.*
+    - public-nutritionfacts_iplocation.*
+    - public-nutritionfacts_message.*
+    - public-nutritionfacts_pingback.*
+    - public-nutritionfacts_statisticspingback.*
+    metadata:
+      public-nutritionfacts_birthyearstats:
+        replication-method: FULL_TABLE
+      public-nutritionfacts_channelstatistics:
+        replication-method: FULL_TABLE
+      public-nutritionfacts_facilitystatistics:
+        replication-method: FULL_TABLE
+      public-nutritionfacts_genderstats:
+        replication-method: FULL_TABLE
+      public-nutritionfacts_instance:
+        replication-method: FULL_TABLE
+      public-nutritionfacts_iplocation:
+        replication-method: FULL_TABLE
+      public-nutritionfacts_message:
+        replication-method: FULL_TABLE
+      public-nutritionfacts_pingback:
+        replication-method: FULL_TABLE
+      public-nutritionfacts_statisticspingback:
+        replication-method: FULL_TABLE
+
   loaders:
   - name: pipelinewise-target-bigquery
     namespace: pipelinewise_target_bigquery
@@ -66,13 +98,25 @@ plugins:
     - name: hard_delete
     config:
       location: US
-      dataset_id: telemetry_meltano
+      dataset_id: public
       data_flattening_max_level: 2
       batch_size: 100000
       default_target_schema: public
+  orchestrators:
+  - name: airflow
+    pip_url: apache-airflow==1.10.14 --constraint https://raw.githubusercontent.com/apache/airflow/constraints-1.10.14/constraints-3.6.txt
   transformers:
   - name: dbt
     pip_url: dbt==0.16.1
   files:
   - name: dbt
     pip_url: git+https://gitlab.com/meltano/files-dbt.git
+  - name: airflow
+    pip_url: git+https://gitlab.com/meltano/files-airflow.git
+schedules:
+- name: ip-hash
+  extractor: tap-postgres
+  loader: pipelinewise-target-bigquery
+  transform: only
+  interval: '@once'
+  start_date: 2021-03-04 17:25:38.390109

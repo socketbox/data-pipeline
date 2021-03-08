@@ -1,5 +1,5 @@
 with source as (
-	select * from nutritionfacts_pingback
+	select * from public.nutritionfacts_pingback
 ),
 
 anon_ip as (
@@ -9,7 +9,7 @@ anon_ip as (
 		saved_at,
 		mode,
 		uptime,
-		ip_id AS 'xxx.xxx.xxx.xxx',
+		'xxx.xxx.xxx.xxx' AS ip_id,
 		instance_id,
 		language,
 		timezone,

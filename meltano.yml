@@ -9,7 +9,7 @@ plugins:
     config:
       dbname: nutritionfacts
       port: 5432
-      default_replication_method: INCREMENTAL
+      default_replication_method: FULL_TABLE
       filter_schemas: public
     select:
     - public-nutritionfacts_birthyearstats.*
@@ -40,45 +40,20 @@ plugins:
         replication-method: FULL_TABLE
       public-nutritionfacts_statisticspingback:
         replication-method: FULL_TABLE
-  - name: tap-postgres--kdp
-    namespace: tap_postgres__kdp
-    variant: transferwise
-    pip_url: git+https://github.com/transferwise/pipelinewise-tap-postgres.git@v1.7.1
-    config:
-      dbname: kolibri
-      port: 5432
-      default_replication_method: INCREMENTAL
-      filter_schemas: public
-    select:
-    - public-nutritionfacts_birthyearstats.*
-    - public-nutritionfacts_channelstatistics.*
-    - public-nutritionfacts_facilitystatistics.*
-    - public-nutritionfacts_genderstats.*
-    - public-nutritionfacts_instance.*
-    - public-nutritionfacts_iplocation.*
-    - public-nutritionfacts_message.*
-    - public-nutritionfacts_pingback.*
-    - public-nutritionfacts_statisticspingback.*
-    metadata:
-      public-nutritionfacts_birthyearstats:
-        replication-method: FULL_TABLE
-      public-nutritionfacts_channelstatistics:
-        replication-method: FULL_TABLE
-      public-nutritionfacts_facilitystatistics:
-        replication-method: FULL_TABLE
-      public-nutritionfacts_genderstats:
-        replication-method: FULL_TABLE
-      public-nutritionfacts_instance:
-        replication-method: FULL_TABLE
-      public-nutritionfacts_iplocation:
-        replication-method: FULL_TABLE
-      public-nutritionfacts_message:
-        replication-method: FULL_TABLE
-      public-nutritionfacts_pingback:
-        replication-method: FULL_TABLE
-      public-nutritionfacts_statisticspingback:
-        replication-method: FULL_TABLE
-
+#  - name: tap-postgres--kdp
+#    namespace: tap_postgres__kdp
+#    variant: transferwise
+#    pip_url: git+https://github.com/transferwise/pipelinewise-tap-postgres.git@v1.7.1
+#    config:
+#      dbname: kolibri
+#      port: 5432
+#      default_replication_method: FULL_TABLE
+#      filter_schemas: public
+#    select:
+#        
+  - name: tap-csv
+    variant: meltano
+    pip_url: git+https://gitlab.com/meltano/tap-csv.git
   loaders:
   - name: pipelinewise-target-bigquery
     namespace: pipelinewise_target_bigquery

@@ -50,10 +50,6 @@ plugins:
 #      default_replication_method: FULL_TABLE
 #      filter_schemas: public
 #    select:
-#        
-  - name: tap-csv
-    variant: meltano
-    pip_url: git+https://gitlab.com/meltano/tap-csv.git
   loaders:
   - name: pipelinewise-target-bigquery
     namespace: pipelinewise_target_bigquery
@@ -92,6 +88,6 @@ schedules:
 - name: ip-hash
   extractor: tap-postgres
   loader: pipelinewise-target-bigquery
-  transform: only
+  transform: run
   interval: '@once'
   start_date: 2021-03-04 17:25:38.390109

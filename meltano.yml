@@ -1,5 +1,7 @@
 version: 1
 send_anonymous_usage_stats: true
+forwarded_allow_ips: "*"
+session_cookie_secure: true
 project_id: 8d73bee1-5b29-467d-8df7-4d6c5d24b72b
 plugins:
   extractors:
@@ -40,20 +42,6 @@ plugins:
         replication-method: FULL_TABLE
       public-nutritionfacts_statisticspingback:
         replication-method: FULL_TABLE
-#  - name: tap-postgres--kdp
-#    namespace: tap_postgres__kdp
-#    variant: transferwise
-#    pip_url: git+https://github.com/transferwise/pipelinewise-tap-postgres.git@v1.7.1
-#    config:
-#      dbname: kolibri
-#      port: 5432
-#      default_replication_method: FULL_TABLE
-#      filter_schemas: public
-#    select:
-#        
-  - name: tap-csv
-    variant: meltano
-    pip_url: git+https://gitlab.com/meltano/tap-csv.git
   loaders:
   - name: pipelinewise-target-bigquery
     namespace: pipelinewise_target_bigquery
@@ -92,6 +80,6 @@ schedules:
 - name: ip-hash
   extractor: tap-postgres
   loader: pipelinewise-target-bigquery
-  transform: only
+  transform: run
   interval: '@once'
   start_date: 2021-03-04 17:25:38.390109

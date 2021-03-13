@@ -1,4 +1,7 @@
 analyze
+*.backup
+*.bkup
+.idea
 .env
 .meltano
 __pycache__

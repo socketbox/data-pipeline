@@ -1,4 +1,18 @@
-.python-version
-*.backup
-README.md
-.meltano
+/.git
+
+# .gitignore
+/venv
+/.meltano
+/.env
+/ui.cfg
+/output
+
+# transform/.gitignore
+/transform/target/
+/transform/dbt_modules/
+/transform/logs/
+
+# custom
+/.python-version
+/*.backup
+/README.md

@@ -4,18 +4,20 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 ENV NODE_VERSION 10
-
-RUN apt update && apt install -y git gcc 
+ENV MELTANO_PROJECT_READONLY 1
 
 WORKDIR /project
 
-COPY transform/ transform/
-COPY meltano.yml .
+#RUN mkdir .meltano && apt update && apt install -y git gcc
+RUN apt update && apt install -y git gcc
+
+#COPY transform/ transform/
+#COPY meltano.yml .
+COPY . .
 
 RUN meltano install
 
-EXPOSE 5000
+EXPOSE 80
 
 ENTRYPOINT ["meltano"]
 CMD ["ui"]
-

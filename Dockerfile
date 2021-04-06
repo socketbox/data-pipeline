@@ -14,7 +14,7 @@ COPY meltano.yml .
 
 RUN meltano install
 
-EXPOSE 5000
+EXPOSE 80
 
 ENTRYPOINT ["meltano"]
 CMD ["ui"]

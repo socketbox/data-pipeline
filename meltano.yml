@@ -9,6 +9,12 @@ plugins:
     variant: transferwise
     pip_url: git+https://github.com/transferwise/pipelinewise-tap-postgres.git@v1.7.1
     config:
+      port: 5432
+  - name: tap-postgres--telemetry
+    inherit_from: tap-postgres
+    variant: transferwise
+    pip_url: git+https://github.com/transferwise/pipelinewise-tap-postgres.git@v1.7.1
+    config:
       dbname: nutritionfacts
       port: 5432
       default_replication_method: FULL_TABLE

@@ -19,5 +19,4 @@ RUN meltano install
 
 EXPOSE 80
 
-ENTRYPOINT ["python3"]
-CMD ["entrypoint.py"]
+ENTRYPOINT ["python", "entrypoint.py"]

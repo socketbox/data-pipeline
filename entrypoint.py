@@ -6,7 +6,7 @@ import subprocess
 
 METADATA_URL = 'http://metadata.google.internal/computeMetadata/v1/'
 METADATA_HEADERS = {'Metadata-Flavor': 'Google'}
-SERVICE_ACCOUNT = 'default'
+SERVICE_ACCOUNT = 'ledp-admin@le-data-pipeline.iam.gserviceaccount.com'
 
 
 # see

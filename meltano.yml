@@ -1,15 +1,10 @@
 version: 1
 send_anonymous_usage_stats: true
-forwarded_allow_ips: "*"
+forwarded_allow_ips: '*'
 session_cookie_secure: true
 project_id: 8d73bee1-5b29-467d-8df7-4d6c5d24b72b
 plugins:
   extractors:
-  - name: tap-postgres
-    variant: transferwise
-    pip_url: git+https://github.com/transferwise/pipelinewise-tap-postgres.git@v1.7.1
-    config:
-      port: 5432
   - name: tap-postgres--telemetry
     inherit_from: tap-postgres
     variant: transferwise
@@ -71,6 +66,12 @@ plugins:
       data_flattening_max_level: 2
       batch_size: 100000
       default_target_schema: public
+      add_metadata_columns: 'true'
+      default_target_schema_select_permission: SELECT
+      hard_delete: 'false'
+      project_id: telemetry-187148
+      schema_mapping: None
+      temp_schema: None
   orchestrators:
   - name: airflow
     pip_url: apache-airflow==1.10.14 --constraint https://raw.githubusercontent.com/apache/airflow/constraints-1.10.14/constraints-3.6.txt
@@ -84,7 +85,7 @@ plugins:
     pip_url: git+https://gitlab.com/meltano/files-airflow.git
 schedules:
 - name: ip-hash
-  extractor: tap-postgres
+  extractor: tap-postgres--telemetry
   loader: pipelinewise-target-bigquery
   transform: run
   interval: '@once'

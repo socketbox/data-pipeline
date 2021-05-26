@@ -1,11 +1,12 @@
-/.git
+.git
 
 # .gitignore
-/venv
-/.meltano
-/.env
-/ui.cfg
-/output
+venv
+.meltano
+.env
+ui.cfg
+output
+.idea
 
 # transform/.gitignore
 /transform/target/
@@ -13,6 +14,6 @@
 /transform/logs/
 
 # custom
-/.python-version
-/*.backup
-/README.md
+.python-version
+*.backup
+README.md

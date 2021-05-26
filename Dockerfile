@@ -15,7 +15,8 @@ RUN apt update && apt install -y git gcc
 #COPY meltano.yml .
 COPY . .
 
-RUN meltano install
+#moved to entrypoint
+#RUN meltano install
 
 EXPOSE 80
 

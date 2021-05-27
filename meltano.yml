@@ -62,16 +62,13 @@ plugins:
     - name: hard_delete
     config:
       location: US
-      dataset_id: public
-      data_flattening_max_level: 2
+      dataset_id: ledp
       batch_size: 100000
-      default_target_schema: public
-      add_metadata_columns: 'true'
-      default_target_schema_select_permission: SELECT
-      hard_delete: 'false'
-      project_id: telemetry-187148
-      schema_mapping: None
-      temp_schema: None
+      default_target_schema: ledp
+      add_metadata_columns: true
+      hard_delete: false
+      project_id: telemetry-187418
+      temp_schema: tmp_ledp
   orchestrators:
   - name: airflow
     pip_url: apache-airflow==1.10.14 --constraint https://raw.githubusercontent.com/apache/airflow/constraints-1.10.14/constraints-3.6.txt

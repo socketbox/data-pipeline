@@ -1,4 +1,4 @@
-FROM meltano/meltano:v1.74.0-python3.7
+FROM meltano/meltano:v1.75.0-python3.7
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -7,17 +7,14 @@ ENV NODE_VERSION 10
 ENV MELTANO_PROJECT_READONLY 0
 
 WORKDIR /project
+RUN adduser meltano
 
-#RUN mkdir .meltano && apt update && apt install -y git gcc
-RUN apt update && apt install -y git gcc
+#TODO: remove psql install in prod
+RUN apt update && apt install -y git gcc postgresql-client
 
-#COPY transform/ transform/
-#COPY meltano.yml .
-COPY . .
+COPY --chown=meltano:meltano . .
 
-#moved to entrypoint
-#RUN meltano install
-
+VOLUME /project/.meltano/logs/elt
 EXPOSE 80
 
 ENTRYPOINT ["python", "entrypoint.py"]

@@ -67,14 +67,15 @@ if __name__ == "__main__":
     secrets = get_secrets_list(project_id, access_token)
     set_env_secrets(secrets, access_token)
     if DEBUG:
+        logging = "debug"
         print(os.environ)
     print("Running meltano install...")
     subprocess.run(['meltano', 'install'])
     print("Adding admin user...")
-    subprocess.run(['meltano', 'user', 'add', os.getenv('MELTANO_ADMIN_USER'), os.getenv('MELTANO_ADMIN_PASSWORD'),
-                    '--role admin'])
+    subprocess.run(['meltano', 'user', 'add', '--role admin', os.getenv('MELTANO_ADMIN_USER'),
+                    os.getenv('MELTANO_ADMIN_PASSWORD')])
     print("Running meltano ui...")
-    subprocess.run(['meltano', 'ui'])
+    subprocess.run(['meltano', '-v', '--logging-level {}'.format(logging), 'ui'])
     #gunicorn_path = shutil.which('gunicorn')
     #gunicorn = subprocess.run([gunicorn_path, '-c', '/app/etc/gunicorn.py', 'nutritionfacts.wsgi:application'])
     #print("gunicorn terminated with code: {}".format(gunicorn.returncode))

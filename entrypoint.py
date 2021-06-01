@@ -72,8 +72,8 @@ if __name__ == "__main__":
     print("Running meltano install...")
     subprocess.run(['meltano', 'install'])
     print("Adding admin user...")
-    subprocess.run(['meltano', 'user', 'add', '--role', 'admin', os.getenv('MELTANO_ADMIN_USER'),
-                    os.getenv('MELTANO_ADMIN_PASSWORD')])
+    subprocess.run(['meltano', 'user', 'add', '--role', 'admin', '--overwrite',
+                    os.getenv('MELTANO_ADMIN_USER'), os.getenv('MELTANO_ADMIN_PASSWORD')])
     print("Running meltano ui...")
     subprocess.run(['meltano', '-v', '--log-level', logging, 'ui'])
     #gunicorn_path = shutil.which('gunicorn')

@@ -1,7 +1,6 @@
 version: 1
 send_anonymous_usage_stats: true
 ui.authentication: true
-
 forwarded_allow_ips: '*'
 session_cookie_secure: true
 project_id: 8d73bee1-5b29-467d-8df7-4d6c5d24b72b
@@ -80,6 +79,8 @@ plugins:
   files:
   - name: dbt
     pip_url: git+https://gitlab.com/meltano/files-dbt.git
+    update:
+      transform/profile/profiles.yml: false
   - name: airflow
     pip_url: git+https://gitlab.com/meltano/files-airflow.git
 schedules:

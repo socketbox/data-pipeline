@@ -7,14 +7,16 @@ ENV NODE_VERSION 10
 ENV MELTANO_PROJECT_READONLY 0
 
 WORKDIR /project
-RUN adduser meltano
+#TODO: more secure
+#RUN adduser meltano
 
 #TODO: remove psql install in prod
 RUN apt update && apt install -y git gcc postgresql-client
 
-COPY --chown=meltano:meltano . .
+#TODO: more secure
+#COPY --chown=meltano:meltano . .
 
-VOLUME /project/.meltano/logs/elt
+VOLUME /project/.meltano/logs
 EXPOSE 80
 
 ENTRYPOINT ["python", "entrypoint.py"]

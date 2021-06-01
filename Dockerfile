@@ -13,6 +13,7 @@ WORKDIR /project
 #TODO: remove psql install in prod
 RUN apt update && apt install -y git gcc postgresql-client
 
+COPY . .
 #TODO: more secure
 #COPY --chown=meltano:meltano . .
 

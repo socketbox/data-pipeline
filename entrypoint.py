@@ -72,10 +72,10 @@ if __name__ == "__main__":
     print("Running meltano install...")
     subprocess.run(['meltano', 'install'])
     print("Adding admin user...")
-    subprocess.run(['meltano', 'user', 'add', '--role admin', os.getenv('MELTANO_ADMIN_USER'),
+    subprocess.run(['meltano', 'user', 'add', '--role', 'admin', os.getenv('MELTANO_ADMIN_USER'),
                     os.getenv('MELTANO_ADMIN_PASSWORD')])
     print("Running meltano ui...")
-    subprocess.run(['meltano', '-v', '--logging-level {}'.format(logging), 'ui'])
+    subprocess.run(['meltano', '-v', '--log-level', logging, 'ui'])
     #gunicorn_path = shutil.which('gunicorn')
     #gunicorn = subprocess.run([gunicorn_path, '-c', '/app/etc/gunicorn.py', 'nutritionfacts.wsgi:application'])
     #print("gunicorn terminated with code: {}".format(gunicorn.returncode))

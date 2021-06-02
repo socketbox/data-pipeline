@@ -1,5 +1,6 @@
 version: 1
 send_anonymous_usage_stats: true
+ui.authentication: true
 forwarded_allow_ips: '*'
 session_cookie_secure: true
 project_id: 8d73bee1-5b29-467d-8df7-4d6c5d24b72b
@@ -62,16 +63,13 @@ plugins:
     - name: hard_delete
     config:
       location: US
-      dataset_id: public
-      data_flattening_max_level: 2
+      dataset_id: ledp
       batch_size: 100000
-      default_target_schema: public
-      add_metadata_columns: 'true'
-      default_target_schema_select_permission: SELECT
-      hard_delete: 'false'
-      project_id: telemetry-187148
-      schema_mapping: None
-      temp_schema: None
+      default_target_schema: ledp
+      add_metadata_columns: true
+      hard_delete: false
+      project_id: telemetry-187418
+      temp_schema: tmp_ledp
   orchestrators:
   - name: airflow
     pip_url: apache-airflow==1.10.14 --constraint https://raw.githubusercontent.com/apache/airflow/constraints-1.10.14/constraints-3.6.txt
@@ -81,6 +79,8 @@ plugins:
   files:
   - name: dbt
     pip_url: git+https://gitlab.com/meltano/files-dbt.git
+    update:
+      transform/profile/profiles.yml: false
   - name: airflow
     pip_url: git+https://gitlab.com/meltano/files-airflow.git
 schedules:
@@ -90,3 +90,5 @@ schedules:
   transform: run
   interval: '@once'
   start_date: 2021-03-04 17:25:38.390109
+  env:
+    TARGET_BIGQUERY_PROJECT_ID: telemetry-187418

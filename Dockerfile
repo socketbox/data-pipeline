@@ -14,6 +14,7 @@ RUN apt update && apt install -y git gcc
 #COPY transform/ transform/
 #COPY meltano.yml .
 COPY . .
+VOLUME /project/.meltano/logs/elt
 
 RUN meltano install
 

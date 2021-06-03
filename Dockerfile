@@ -17,9 +17,8 @@ RUN apt update && apt install -y git gcc postgresql-client
 #COPY --chown=meltano:meltano . .
 COPY . .
 
-VOLUME /project/.meltano/logs/elt
+#VOLUME /project/.meltano/logs/elt
 
-VOLUME /project/.meltano/logs
 EXPOSE 80
 
 ENTRYPOINT ["python", "entrypoint.py"]

@@ -76,6 +76,3 @@ if __name__ == "__main__":
                     os.getenv('MELTANO_ADMIN_USER'), os.getenv('MELTANO_ADMIN_PASSWORD')])
     print("Running meltano ui...")
     subprocess.run(['meltano', '-v', '--log-level', logging, 'ui'])
-    #gunicorn_path = shutil.which('gunicorn')
-    #gunicorn = subprocess.run([gunicorn_path, '-c', '/app/etc/gunicorn.py', 'nutritionfacts.wsgi:application'])
-    #print("gunicorn terminated with code: {}".format(gunicorn.returncode))

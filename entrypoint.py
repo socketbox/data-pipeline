@@ -7,7 +7,7 @@ import subprocess
 METADATA_URL = 'http://metadata.google.internal/computeMetadata/v1/'
 METADATA_HEADERS = {'Metadata-Flavor': 'Google'}
 SERVICE_ACCOUNT = 'ledp-admin@le-data-pipeline.iam.gserviceaccount.com'
-
+DEBUG = True
 
 # see
 # https://cloud.google.com/compute/docs/access/create-enable-service-accounts-for-instances#applications
@@ -66,5 +66,13 @@ if __name__ == "__main__":
     access_token = get_access_token()
     secrets = get_secrets_list(project_id, access_token)
     set_env_secrets(secrets, access_token)
-    print("Running meltano...")
-    subprocess.run(['meltano', 'ui'])
+    if DEBUG:
+        logging = "debug"
+        print(os.environ)
+    print("Running meltano install...")
+    subprocess.run(['meltano', 'install'])
+    print("Adding admin user...")
+    subprocess.run(['meltano', 'user', 'add', '--role', 'admin', '--overwrite',
+                    os.getenv('MELTANO_ADMIN_USER'), os.getenv('MELTANO_ADMIN_PASSWORD')])
+    print("Running meltano ui...")
+    subprocess.run(['meltano', '-v', '--log-level', logging, 'ui'])

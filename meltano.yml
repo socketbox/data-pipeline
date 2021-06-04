@@ -1,7 +1,7 @@
 version: 1
 send_anonymous_usage_stats: true
 ui.authentication: true
-#forwarded_allow_ips: '*'
+forwarded_allow_ips: '*'
 session_cookie_secure: true
 project_id: 8d73bee1-5b29-467d-8df7-4d6c5d24b72b
 plugins:

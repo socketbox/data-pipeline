@@ -44,7 +44,8 @@ plugins:
       public-nutritionfacts_statisticspingback:
         replication-method: FULL_TABLE
   loaders:
-  - name: pipelinewise-target-bigquery
+  - name: pipelinewise-target-bigquery--telemetry
+    inherit_from: pipelinewise-target-bigquery
     namespace: pipelinewise_target_bigquery
     pip_url: git+https://github.com/transferwise/pipelinewise-target-bigquery.git@v1.0.1
     executable: target-bigquery
@@ -69,6 +70,8 @@ plugins:
       hard_delete: false
       project_id: telemetry-187418
       temp_schema: tmp_ledp
+      schema_mapping: ""
+
   orchestrators:
   - name: airflow
     pip_url: apache-airflow==1.10.14 --constraint https://raw.githubusercontent.com/apache/airflow/constraints-1.10.14/constraints-3.6.txt

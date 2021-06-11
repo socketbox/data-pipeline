@@ -1,9 +1,12 @@
 .python-version
+venv
 analyze
 *.backup
 *.bkup
 .idea
 .env
+.envrc
 .meltano
 __pycache__
 .pyc
+*.swp

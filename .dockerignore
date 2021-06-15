@@ -1,12 +1,17 @@
 .git
 
 # .gitignore
+.python-version
 venv
 .meltano
 .env
+.envrc
 ui.cfg
 output
 .idea
+.swp
+
+/test
 
 # transform/.gitignore
 /transform/target/

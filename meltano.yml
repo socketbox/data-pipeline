@@ -143,17 +143,17 @@ plugins:
       public-morango_transfersession:
         replication-method: FULL_TABLE
   - name: tap-postgres--studio
-      inherit_from: tap-postgres
-      variant: transferwise
-      pip_url: git+https://github.com/transferwise/pipelinewise-tap-postgres.git@v1.7.1
-      config:
-        dbname: content-curation
-        port: 5432
-        default_replication_method: FULL_TABLE
-        filter_schemas: public
-      select:
-      - public-contentcuration_assessmentitem.*
-      - public-contentcuration_channel.*
+    inherit_from: tap-postgres
+    variant: transferwise
+    pip_url: git+https://github.com/transferwise/pipelinewise-tap-postgres.git@v1.7.1
+    config:
+      dbname: content-curation
+      port: 5432
+      default_replication_method: FULL_TABLE
+      filter_schemas: public
+    select:
+    - public-contentcuration_assessmentitem.*
+    - public-contentcuration_channel.*
   loaders:
   #- name: pipelinewise-target-bigquery
   #  namespace: target_bigquery

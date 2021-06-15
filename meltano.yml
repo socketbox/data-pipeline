@@ -1,7 +1,8 @@
 version: 1
-send_anonymous_usage_stats: true
+send_anonymous_usage_stats: false
 ui.authentication: false
 ui.forwarded_allow_ips: '*'
+cli.log_level: debug
 project_id: 8d73bee1-5b29-467d-8df7-4d6c5d24b72b
 plugins:
   extractors:
@@ -43,10 +44,122 @@ plugins:
         replication-method: FULL_TABLE
       public-nutritionfacts_statisticspingback:
         replication-method: FULL_TABLE
+  - name: tap-postgres--kdp
+    inherit_from: tap-postgres
+    variant: transferwise
+    pip_url: git+https://github.com/transferwise/pipelinewise-tap-postgres.git@v1.7.1
+    config:
+      dbname: kolibri
+      port: 5432
+      default_replication_method: FULL_TABLE
+      filter_schemas: public
+    select:
+    - public-exams_exam.*
+    - public-exams_examassignment.*
+    - public-kolibri_data_portal_communitymembership.*
+    - public-kolibri_data_portal_facilityholding.*
+    - public-kolibri_data_portal_learningcommunity.*
+    - public-kolibri_data_portal_learningcommunity_facilities.*
+    - public-kolibri_data_portal_learningcommunity_staging_facilities.*
+    - public-kolibri_data_portal_organization.*
+    - public-kolibri_data_portal_organizationmembership.*
+    - public-kolibri_data_portal_portaluser.*
+    - public-kolibri_data_portal_project.*
+    - public-kolibri_data_portal_project_organizations.*
+    - public-kolibriauth_collection.*
+    - public-kolibriauth_facilitydataset.*
+    - public-kolibriauth_facilityuser.*
+    - public-kolibriauth_membership.*
+    - public-kolibriauth_role.*
+    - public-lessons_lesson.*
+    - public-lessons_lessonassignment.*
+    - public-logger_attemptlog.*
+    - public-logger_contentsessionlog.*
+    - public-logger_contentsummarylog.*
+    - public-logger_examattemptlog.*
+    - public-logger_examlog.*
+    - public-logger_masterylog.*
+    - public-logger_usersessionlog.*
+    - public-morango_certificate.*
+    - public-morango_syncsession.*
+    - public-morango_transfersession.*
+    metadata:
+      public-exams_exam:
+        replication-method: FULL_TABLE
+      public-exams_examassignment:
+        replication-method: FULL_TABLE
+      public-kolibri_data_portal_communitymembership:
+        replication-method: FULL_TABLE
+      public-kolibri_data_portal_facilityholding:
+        replication-method: FULL_TABLE
+      public-kolibri_data_portal_learningcommunity:
+        replication-method: FULL_TABLE
+      public-kolibri_data_portal_learningcommunity_facilities:
+        replication-method: FULL_TABLE
+      public-kolibri_data_portal_learningcommunity_staging_facilities:
+        replication-method: FULL_TABLE
+      public-kolibri_data_portal_organization:
+        replication-method: FULL_TABLE
+      public-kolibri_data_portal_organizationmembership:
+        replication-method: FULL_TABLE
+      public-kolibri_data_portal_portaluser:
+        replication-method: FULL_TABLE
+      public-kolibri_data_portal_project:
+        replication-method: FULL_TABLE
+      public-kolibri_data_portal_project_organizations:
+        replication-method: FULL_TABLE
+      public-kolibriauth_collection:
+        replication-method: FULL_TABLE
+      public-kolibriauth_facilitydataset:
+        replication-method: FULL_TABLE
+      public-kolibriauth_facilityuser:
+        replication-method: FULL_TABLE
+      public-kolibriauth_membership:
+        replication-method: FULL_TABLE
+      public-kolibriauth_role:
+        replication-method: FULL_TABLE
+      public-lessons_lesson:
+        replication-method: FULL_TABLE
+      public-lessons_lessonassignment:
+        replication-method: FULL_TABLE
+      public-logger_attemptlog:
+        replication-method: FULL_TABLE
+      public-logger_contentsessionlog:
+        replication-method: FULL_TABLE
+      public-logger_contentsummarylog:
+        replication-method: FULL_TABLE
+      public-logger_examattemptlog:
+        replication-method: FULL_TABLE
+      public-logger_examlog:
+        replication-method: FULL_TABLE
+      public-logger_masterylog:
+        replication-method: FULL_TABLE
+      public-logger_usersessionlog:
+        replication-method: FULL_TABLE
+      public-morango_certificate:
+        replication-method: FULL_TABLE
+      public-morango_syncsession:
+        replication-method: FULL_TABLE
+      public-morango_transfersession:
+        replication-method: FULL_TABLE
   loaders:
   - name: pipelinewise-target-bigquery
+    namespace: target_bigquery
+    pip_url: git+https://github.com/transferwise/pipelinewise-target-bigquery.git@v1.0.1
+    executable: target-bigquery
+  - name: pipelinewise-target-bigquery--telemetry
+    inherit_from: pipelinewise-target-bigquery
     namespace: pipelinewise_target_bigquery
     pip_url: git+https://github.com/transferwise/pipelinewise-target-bigquery.git@v1.0.1
+    config:
+      location: US
+      dataset_id: ledp
+      batch_size: 100000
+      default_target_schema: ledp
+      add_metadata_columns: true
+      hard_delete: false
+      project_id: telemetry-187418
+      temp_schema: tmp_ledp
     executable: target-bigquery
     settings:
     - name: location
@@ -60,15 +173,32 @@ plugins:
     - name: batch_size
     - name: add_metadata_columns
     - name: hard_delete
+  - name: pipelinewise-target-bigquery--kdp
+    inherit_from: pipelinewise-target-bigquery
+    namespace: pipelinewise_target_bigquery
+    pip_url: git+https://github.com/transferwise/pipelinewise-target-bigquery.git@v1.0.1
     config:
       location: US
       dataset_id: ledp
-      batch_size: 100000
+      project_id: kolibri-data-portal
+      temp_schema: tmp_ledp
       default_target_schema: ledp
+      batch_size: 100000
       add_metadata_columns: true
       hard_delete: false
-      project_id: telemetry-187418
-      temp_schema: tmp_ledp
+    executable: target-bigquery
+    settings:
+      - name: location
+      - name: dataset_id
+      - name: project_id
+      - name: temp_schema
+      - name: default_target_schema
+      - name: schema_mapping
+      - name: default_target_schema_select_permission
+      - name: data_flattening_max_level
+      - name: batch_size
+      - name: add_metadata_columns
+      - name: hard_delete
   orchestrators:
   - name: airflow
     pip_url: apache-airflow==1.10.14 --constraint https://raw.githubusercontent.com/apache/airflow/constraints-1.10.14/constraints-3.6.txt
@@ -85,9 +215,17 @@ plugins:
 schedules:
 - name: ip-hash
   extractor: tap-postgres--telemetry
-  loader: pipelinewise-target-bigquery
+  loader: pipelinewise-target-bigquery--telemetry
   transform: run
   interval: '@once'
   start_date: 2021-03-04 17:25:38.390109
   env:
     TARGET_BIGQUERY_PROJECT_ID: telemetry-187418
+- name: kdp-elt
+  extractor: tap-postgres--kdp
+  loader: pipelinewise-target-bigquery--kdp
+  transform: run
+  interval: '@once'
+  start_date: 2021-06-14 17:25:38.390109
+  env:
+    TARGET_BIGQUERY_PROJECT_ID: kolibri-data-portal

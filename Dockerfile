@@ -1,4 +1,4 @@
-FROM meltano/meltano:v1.75.0-python3.7
+FROM meltano/meltano:v1.76.0-python3.7
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PYTHONDONTWRITEBYTECODE 1

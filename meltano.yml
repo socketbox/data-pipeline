@@ -2,9 +2,11 @@ version: 1
 send_anonymous_usage_stats: false
 ui.authentication: false
 ui.forwarded_allow_ips: '*'
-cli.log_level: debug
+cli.log_level: info
 project_id: 8d73bee1-5b29-467d-8df7-4d6c5d24b72b
+
 plugins:
+
   extractors:
   - name: tap-postgres--telemetry
     inherit_from: tap-postgres
@@ -44,6 +46,7 @@ plugins:
         replication-method: FULL_TABLE
       public-nutritionfacts_statisticspingback:
         replication-method: FULL_TABLE
+
   - name: tap-postgres--kdp
     inherit_from: tap-postgres
     variant: transferwise
@@ -142,23 +145,106 @@ plugins:
         replication-method: FULL_TABLE
       public-morango_transfersession:
         replication-method: FULL_TABLE
+
   - name: tap-postgres--studio
-      inherit_from: tap-postgres
-      variant: transferwise
-      pip_url: git+https://github.com/transferwise/pipelinewise-tap-postgres.git@v1.7.1
-      config:
-        dbname: content-curation
-        port: 5432
-        default_replication_method: FULL_TABLE
-        filter_schemas: public
-      select:
-      - public-contentcuration_assessmentitem.*
-      - public-contentcuration_channel.*
+    inherit_from: tap-postgres
+    variant: transferwise
+    pip_url: git+https://github.com/transferwise/pipelinewise-tap-postgres.git@v1.7.1
+    config:
+      dbname: content-curation
+      port: 5432
+      default_replication_method: FULL_TABLE
+      filter_schemas: public
+    select:
+    - public-contentcuration_assessmentitem.*
+    - public-contentcuration_channel.*
+    - public-contentcuration_channel_bookmarked_by.*
+    - public-contentcuration_channel_editors.*
+    - public-contentcuration_channel_included_languages.*
+    - public-contentcuration_channel_secret_tokens.*
+    - public-contentcuration_channel_viewers.*
+    - public-contentcuration_channelset.*
+    - public-contentcuration_channelset_editors.*
+    - public-contentcuration_contentkind.*
+    - public-contentcuration_contentnode.*
+    - public-contentcuration_contentnode_tags.*
+    - public-contentcuration_contenttag.*
+    - public-contentcuration_exercise.*
+    - public-contentcuration_file.*
+    - public-contentcuration_fileformat.*
+    - public-contentcuration_formatpreset.*
+    - public-contentcuration_formatpreset_allowed_formats.*
+    - public-contentcuration_language.*
+    - public-contentcuration_license.*
+    - public-contentcuration_prerequisitecontentrelationship.*
+    - public-contentcuration_relatedcontentrelationship.*
+    - public-contentcuration_secrettoken.*
+    - public-contentcuration_slideshowslide.*
+    - public-contentcuration_stagedfile.*
+    - public-contentcuration_user.*
+    - public-search_savedsearch.*
+    metadata:
+      public-contecuration_assessmentitem:
+        replication-method: FULL_TABLE
+      public-contentcuration_channel:
+        replication-method: FULL_TABLE
+      public-contentcuration_channel_bookmarked_by:
+        replication-method: FULL_TABLE
+      public-contentcuration_channel_editors:
+        replication-method: FULL_TABLE
+      public-contentcuration_channel_included_languages:
+        replication-method: FULL_TABLE
+      public-contentcuration_channel_secret_tokens:
+        replication-method: FULL_TABLE
+      public-contentcuration_channel_viewers:
+        replication-method: FULL_TABLE
+      public-contentcuration_channelset:
+        replication-method: FULL_TABLE
+      public-contentcuration_channelset_editors:
+        replication-method: FULL_TABLE
+      public-contentcuration_contentkind:
+        replication-method: FULL_TABLE
+      public-contentcuration_contentnode:
+        replication-method: FULL_TABLE
+      public-contentcuration_contentnode_tags:
+        replication-method: FULL_TABLE
+      public-contentcuration_contenttag:
+        replication-method: FULL_TABLE
+      public-contentcuration_exercise:
+        replication-method: FULL_TABLE
+      public-contentcuration_file:
+        replication-method: FULL_TABLE
+      public-contentcuration_fileformat:
+        replication-method: FULL_TABLE
+      public-contentcuration_formatpreset:
+        replication-method: FULL_TABLE
+      public-contentcuration_formatpreset_allowed_formats:
+        replication-method: FULL_TABLE
+      public-contentcuration_language:
+        replication-method: FULL_TABLE
+      public-contentcuration_license:
+        replication-method: FULL_TABLE
+      public-contentcuration_prerequisitecontentrelationship:
+        replication-method: FULL_TABLE
+      public-contentcuration_relatedcontentrelationship:
+        replication-method: FULL_TABLE
+      public-contentcuration_secrettoken:
+        replication-method: FULL_TABLE
+      public-contentcuration_slideshowslide:
+        replication-method: FULL_TABLE
+      public-contentcuration_stagedfile:
+        replication-method: FULL_TABLE
+      public-contentcuration_user:
+        replication-method: FULL_TABLE
+      public-search_savedsearch:
+        replication-method: FULL_TABLE
+
   loaders:
-  #- name: pipelinewise-target-bigquery
-  #  namespace: target_bigquery
-  #  pip_url: git+https://github.com/transferwise/pipelinewise-target-bigquery.git@v1.0.1
-  #  executable: target-bigquery
+  - name: pipelinewise-target-bigquery
+    namespace: target_bigquery
+    pip_url: git+https://github.com/transferwise/pipelinewise-target-bigquery.git@v1.0.1
+    executable: target-bigquery
+
   - name: pipelinewise-target-bigquery--telemetry
     inherit_from: pipelinewise-target-bigquery
     namespace: pipelinewise_target_bigquery
@@ -185,6 +271,7 @@ plugins:
     - name: batch_size
     - name: add_metadata_columns
     - name: hard_delete
+
   - name: pipelinewise-target-bigquery--kdp
     inherit_from: pipelinewise-target-bigquery
     namespace: pipelinewise_target_bigquery
@@ -211,32 +298,34 @@ plugins:
       - name: batch_size
       - name: add_metadata_columns
       - name: hard_delete
+
   - name: pipelinewise-target-bigquery--studio
-      inherit_from: pipelinewise-target-bigquery
-      namespace: pipelinewise_target_bigquery
-      pip_url: git+https://github.com/transferwise/pipelinewise-target-bigquery.git@v1.0.1
-      config:
-        location: US
-        dataset_id: ledp
-        project_id: contentworkshop-159920
-        temp_schema: tmp_ledp
-        default_target_schema: ledp
-        batch_size: 100000
-        add_metadata_columns: true
-        hard_delete: false
-      executable: target-bigquery
-      settings:
-        - name: location
-        - name: dataset_id
-        - name: project_id
-        - name: temp_schema
-        - name: default_target_schema
-        - name: schema_mapping
-        - name: default_target_schema_select_permission
-        - name: data_flattening_max_level
-        - name: batch_size
-        - name: add_metadata_columns
-        - name: hard_delete
+    inherit_from: pipelinewise-target-bigquery
+    namespace: pipelinewise_target_bigquery
+    pip_url: git+https://github.com/transferwise/pipelinewise-target-bigquery.git@v1.0.1
+    config:
+      location: US
+      dataset_id: ledp
+      project_id: contentworkshop-159920
+      temp_schema: tmp_ledp
+      default_target_schema: ledp
+      batch_size: 100000
+      add_metadata_columns: true
+      hard_delete: false
+    executable: target-bigquery
+    settings:
+      - name: location
+      - name: dataset_id
+      - name: project_id
+      - name: temp_schema
+      - name: default_target_schema
+      - name: schema_mapping
+      - name: default_target_schema_select_permission
+      - name: data_flattening_max_level
+      - name: batch_size
+      - name: add_metadata_columns
+      - name: hard_delete
+
   orchestrators:
   - name: airflow
     pip_url: apache-airflow==1.10.14 --constraint https://raw.githubusercontent.com/apache/airflow/constraints-1.10.14/constraints-3.6.txt
@@ -250,6 +339,7 @@ plugins:
       transform/profile/profiles.yml: false
   - name: airflow
     pip_url: git+https://gitlab.com/meltano/files-airflow.git
+
 schedules:
 - name: ip-hash
   extractor: tap-postgres--telemetry
@@ -259,7 +349,8 @@ schedules:
   start_date: 2021-03-04 17:25:38.390109
   env:
     TARGET_BIGQUERY_PROJECT_ID: telemetry-187418
-- name: kdp-elt
+
+- name: kdp-el
   extractor: tap-postgres--kdp
   loader: pipelinewise-target-bigquery--kdp
   transform: run
@@ -267,3 +358,12 @@ schedules:
   start_date: 2021-06-14 17:25:38.390109
   env:
     TARGET_BIGQUERY_PROJECT_ID: kolibri-data-portal
+
+- name: studio-el
+  extractor: tap-postgres--studio
+  loader: pipelinewise-target-bigquery--studio
+  transform: run
+  interval: '@once'
+  start_date: 2021-06-14 17:25:38.390109
+  env:
+    TARGET_BIGQUERY_PROJECT_ID: contentworkshop-159920

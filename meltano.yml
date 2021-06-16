@@ -154,11 +154,16 @@ plugins:
     select:
     - public-contentcuration_assessmentitem.*
     - public-contentcuration_channel.*
+    metadata:
+      public-contecuration_assessmentitem:
+        replication-method: FULL_TABLE
+      public-contentcuration_channel:
+        replication-method: FULL_TABLE
   loaders:
-  #- name: pipelinewise-target-bigquery
-  #  namespace: target_bigquery
-  #  pip_url: git+https://github.com/transferwise/pipelinewise-target-bigquery.git@v1.0.1
-  #  executable: target-bigquery
+  - name: pipelinewise-target-bigquery
+    namespace: target_bigquery
+    pip_url: git+https://github.com/transferwise/pipelinewise-target-bigquery.git@v1.0.1
+    executable: target-bigquery
   - name: pipelinewise-target-bigquery--telemetry
     inherit_from: pipelinewise-target-bigquery
     namespace: pipelinewise_target_bigquery
@@ -212,31 +217,31 @@ plugins:
       - name: add_metadata_columns
       - name: hard_delete
   - name: pipelinewise-target-bigquery--studio
-      inherit_from: pipelinewise-target-bigquery
-      namespace: pipelinewise_target_bigquery
-      pip_url: git+https://github.com/transferwise/pipelinewise-target-bigquery.git@v1.0.1
-      config:
-        location: US
-        dataset_id: ledp
-        project_id: contentworkshop-159920
-        temp_schema: tmp_ledp
-        default_target_schema: ledp
-        batch_size: 100000
-        add_metadata_columns: true
-        hard_delete: false
-      executable: target-bigquery
-      settings:
-        - name: location
-        - name: dataset_id
-        - name: project_id
-        - name: temp_schema
-        - name: default_target_schema
-        - name: schema_mapping
-        - name: default_target_schema_select_permission
-        - name: data_flattening_max_level
-        - name: batch_size
-        - name: add_metadata_columns
-        - name: hard_delete
+    inherit_from: pipelinewise-target-bigquery
+    namespace: pipelinewise_target_bigquery
+    pip_url: git+https://github.com/transferwise/pipelinewise-target-bigquery.git@v1.0.1
+    config:
+      location: US
+      dataset_id: ledp
+      project_id: contentworkshop-159920
+      temp_schema: tmp_ledp
+      default_target_schema: ledp
+      batch_size: 100000
+      add_metadata_columns: true
+      hard_delete: false
+    executable: target-bigquery
+    settings:
+      - name: location
+      - name: dataset_id
+      - name: project_id
+      - name: temp_schema
+      - name: default_target_schema
+      - name: schema_mapping
+      - name: default_target_schema_select_permission
+      - name: data_flattening_max_level
+      - name: batch_size
+      - name: add_metadata_columns
+      - name: hard_delete
   orchestrators:
   - name: airflow
     pip_url: apache-airflow==1.10.14 --constraint https://raw.githubusercontent.com/apache/airflow/constraints-1.10.14/constraints-3.6.txt

@@ -264,7 +264,7 @@ schedules:
   start_date: 2021-03-04 17:25:38.390109
   env:
     TARGET_BIGQUERY_PROJECT_ID: telemetry-187418
-- name: kdp-elt
+- name: kdp-el
   extractor: tap-postgres--kdp
   loader: pipelinewise-target-bigquery--kdp
   transform: run
@@ -272,3 +272,11 @@ schedules:
   start_date: 2021-06-14 17:25:38.390109
   env:
     TARGET_BIGQUERY_PROJECT_ID: kolibri-data-portal
+- name: studio-el
+  extractor: tap-postgres--studio
+  loader: pipelinewise-target-bigquery--studio
+  transform: run
+  interval: '@once'
+  start_date: 2021-06-14 17:25:38.390109
+  env:
+    TARGET_BIGQUERY_PROJECT_ID: contentworkshop-159920

@@ -2,7 +2,7 @@ version: 1
 send_anonymous_usage_stats: false
 ui.authentication: false
 ui.forwarded_allow_ips: '*'
-cli.log_level: warning
+cli.log_level: debug
 project_id: 8d73bee1-5b29-467d-8df7-4d6c5d24b72b
 
 plugins:
@@ -341,10 +341,10 @@ plugins:
     pip_url: git+https://gitlab.com/meltano/files-airflow.git
 
 schedules:
-- name: ip-hash
+- name: telemetry-el
   extractor: tap-postgres--telemetry
   loader: pipelinewise-target-bigquery--telemetry
-  transform: run
+  transform: skip
   interval: '@once'
   start_date: 2021-03-04 17:25:38.390109
   env:
@@ -353,7 +353,7 @@ schedules:
 - name: kdp-el
   extractor: tap-postgres--kdp
   loader: pipelinewise-target-bigquery--kdp
-  transform: run
+  transform: skip
   interval: '@once'
   start_date: 2021-06-14 17:25:38.390109
   env:
@@ -362,7 +362,7 @@ schedules:
 - name: studio-el
   extractor: tap-postgres--studio
   loader: pipelinewise-target-bigquery--studio
-  transform: run
+  transform: skip
   interval: '@once'
   start_date: 2021-06-14 17:25:38.390109
   env:

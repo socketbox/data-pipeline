@@ -242,13 +242,13 @@ plugins:
   loaders:
   - name: pipelinewise-target-bigquery
     namespace: target_bigquery
-    pip_url: git+https://github.com/transferwise/pipelinewise-target-bigquery.git@v1.0.1
+    pip_url: git+https://github.com/transferwise/pipelinewise-target-bigquery.git@v1.1.1
     executable: target-bigquery
 
   - name: pipelinewise-target-bigquery--telemetry
     inherit_from: pipelinewise-target-bigquery
     namespace: pipelinewise_target_bigquery
-    pip_url: git+https://github.com/transferwise/pipelinewise-target-bigquery.git@v1.0.1
+    pip_url: git+https://github.com/transferwise/pipelinewise-target-bigquery.git@v1.1.1
     config:
       location: US
       dataset_id: ledp
@@ -275,7 +275,7 @@ plugins:
   - name: pipelinewise-target-bigquery--kdp
     inherit_from: pipelinewise-target-bigquery
     namespace: pipelinewise_target_bigquery
-    pip_url: git+https://github.com/transferwise/pipelinewise-target-bigquery.git@v1.0.1
+    pip_url: git+https://github.com/transferwise/pipelinewise-target-bigquery.git@v1.1.1
     config:
       location: US
       dataset_id: ledp
@@ -302,7 +302,7 @@ plugins:
   - name: pipelinewise-target-bigquery--studio
     inherit_from: pipelinewise-target-bigquery
     namespace: pipelinewise_target_bigquery
-    pip_url: git+https://github.com/transferwise/pipelinewise-target-bigquery.git@v1.0.1
+    pip_url: git+https://github.com/transferwise/pipelinewise-target-bigquery.git@v1.1.1
     config:
       location: US
       dataset_id: ledp

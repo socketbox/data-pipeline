@@ -2,7 +2,7 @@ version: 1
 send_anonymous_usage_stats: false
 ui.authentication: false
 ui.forwarded_allow_ips: '*'
-cli.log_level: debug
+cli.log_level: warning
 project_id: 8d73bee1-5b29-467d-8df7-4d6c5d24b72b
 
 plugins:

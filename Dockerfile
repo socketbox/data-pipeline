@@ -11,7 +11,7 @@ WORKDIR /project
 #RUN adduser meltano
 
 #TODO: remove psql install in prod
-RUN apt update && apt install -y git gcc postgresql-client
+RUN apt update && apt install -y git gcc postgresql-client vim-tiny
 
 #TODO: more secure
 #COPY --chown=meltano:meltano . .

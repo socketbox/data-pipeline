@@ -252,7 +252,7 @@ plugins:
     config:
       location: US
       dataset_id: ledp
-      batch_size: 50000
+      batch_size: 20000
       default_target_schema: ledp
       add_metadata_columns: true
       hard_delete: false
@@ -282,7 +282,7 @@ plugins:
       project_id: kolibri-data-portal
       temp_schema: tmp_ledp
       default_target_schema: ledp
-      batch_size: 50000
+      batch_size: 20000
       add_metadata_columns: true
       hard_delete: false
     executable: target-bigquery
@@ -309,7 +309,7 @@ plugins:
       project_id: contentworkshop-159920
       temp_schema: tmp_ledp
       default_target_schema: ledp
-      batch_size: 50000
+      batch_size: 20000
       add_metadata_columns: true
       hard_delete: false
     executable: target-bigquery
@@ -328,7 +328,7 @@ plugins:
 
   orchestrators:
   - name: airflow
-    pip_url: apache-airflow==1.10.14 --constraint https://raw.githubusercontent.com/apache/airflow/constraints-1.10.14/constraints-3.6.txt
+    pip_url: psycopg2 apache-airflow==1.10.14 --constraint https://raw.githubusercontent.com/apache/airflow/constraints-1.10.14/constraints-3.6.txt
   transformers:
   - name: dbt
     pip_url: dbt==0.16.1

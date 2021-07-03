@@ -345,7 +345,7 @@ schedules:
   extractor: tap-postgres--telemetry
   loader: pipelinewise-target-bigquery--telemetry
   transform: skip
-  interval: '0 8 * * *'
+  interval: '0 4 * * *'
   start_date: 2021-03-04 17:25:38.390109
   env:
     TARGET_BIGQUERY_PROJECT_ID: telemetry-187418
@@ -363,7 +363,7 @@ schedules:
   extractor: tap-postgres--studio
   loader: pipelinewise-target-bigquery--studio
   transform: skip
-  interval: '00 20 * * *'
+  interval: '0 4 * * *'
   start_date: 2021-06-14 17:25:38.390109
   env:
     TARGET_BIGQUERY_PROJECT_ID: contentworkshop-159920

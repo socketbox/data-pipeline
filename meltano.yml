@@ -2,7 +2,7 @@ version: 1
 send_anonymous_usage_stats: false
 ui.authentication: false
 ui.forwarded_allow_ips: '*'
-cli.log_level: debug
+cli.log_level: warning
 project_id: 8d73bee1-5b29-467d-8df7-4d6c5d24b72b
 
 plugins:
@@ -252,7 +252,7 @@ plugins:
     config:
       location: US
       dataset_id: ledp
-      batch_size: 20000
+      batch_size_rows: 500000
       default_target_schema: ledp
       add_metadata_columns: true
       hard_delete: false
@@ -268,7 +268,7 @@ plugins:
     - name: schema_mapping
     - name: default_target_schema_select_permission
     - name: data_flattening_max_level
-    - name: batch_size
+    - name: batch_size_rows
     - name: add_metadata_columns
     - name: hard_delete
 
@@ -282,7 +282,7 @@ plugins:
       project_id: kolibri-data-portal
       temp_schema: tmp_ledp
       default_target_schema: ledp
-      batch_size: 20000
+      batch_size_rows: 50000
       add_metadata_columns: true
       hard_delete: false
     executable: target-bigquery
@@ -295,7 +295,7 @@ plugins:
       - name: schema_mapping
       - name: default_target_schema_select_permission
       - name: data_flattening_max_level
-      - name: batch_size
+      - name: batch_size_rows
       - name: add_metadata_columns
       - name: hard_delete
 
@@ -309,7 +309,7 @@ plugins:
       project_id: contentworkshop-159920
       temp_schema: tmp_ledp
       default_target_schema: ledp
-      batch_size: 20000
+      batch_size_rows: 500000
       add_metadata_columns: true
       hard_delete: false
     executable: target-bigquery
@@ -322,13 +322,13 @@ plugins:
       - name: schema_mapping
       - name: default_target_schema_select_permission
       - name: data_flattening_max_level
-      - name: batch_size
+      - name: batch_size_rows
       - name: add_metadata_columns
       - name: hard_delete
 
   orchestrators:
   - name: airflow
-    pip_url: psycopg2 apache-airflow==1.10.14 --constraint https://raw.githubusercontent.com/apache/airflow/constraints-1.10.14/constraints-3.6.txt
+    pip_url: psycopg2 apache-airflow==1.10.14 --constraint https://raw.githubusercontent.com/apache/airflow/constraints-1.10.14/constraints-3.7.txt
   transformers:
   - name: dbt
     pip_url: dbt==0.16.1
@@ -345,7 +345,7 @@ schedules:
   extractor: tap-postgres--telemetry
   loader: pipelinewise-target-bigquery--telemetry
   transform: skip
-  interval: '@once'
+  interval: '0 4 * * *'
   start_date: 2021-03-04 17:25:38.390109
   env:
     TARGET_BIGQUERY_PROJECT_ID: telemetry-187418
@@ -354,7 +354,7 @@ schedules:
   extractor: tap-postgres--kdp
   loader: pipelinewise-target-bigquery--kdp
   transform: skip
-  interval: '@once'
+  interval: '0 4 * * *'
   start_date: 2021-06-14 17:25:38.390109
   env:
     TARGET_BIGQUERY_PROJECT_ID: kolibri-data-portal
@@ -363,7 +363,7 @@ schedules:
   extractor: tap-postgres--studio
   loader: pipelinewise-target-bigquery--studio
   transform: skip
-  interval: '@once'
+  interval: '0 4 * * *'
   start_date: 2021-06-14 17:25:38.390109
   env:
     TARGET_BIGQUERY_PROJECT_ID: contentworkshop-159920

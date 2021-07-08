@@ -68,6 +68,6 @@ if __name__ == "__main__":
     print("Running meltano install...")
     subprocess.run(['meltano', 'install'])
     print("Running airflow webserver in background ...")
-    subprocess.Popen(['meltano', 'invoke', 'airflow', 'webserver', '-p', '80'])
+    subprocess.Popen(['meltano', 'invoke', 'airflow', 'webserver', '-p', '80', '-D', '-E', '/project/.meltano/run/airflow/logs/webserver_err.log'])
     print("Running airflow scheduler ...")
     subprocess.run(['meltano', 'invoke', 'airflow', 'scheduler'])

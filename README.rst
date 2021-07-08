@@ -59,9 +59,9 @@ Default Values of Plugins
 +-----------------------------------------------+------------+------------+--------------+--------------+
 | TAP_POSTGRES__KDP_PASSWORD                    |   Tap      |   .env     | Sec. Mgr.    |     Yes      |
 +-----------------------------------------------+------------+------------+--------------+--------------+
-| AIRFLOW__CORE__SQL_ALCHEMY_CONN               |   Airflow  |   .env     | Sec. Mgr.    |     Yes      |
+| AIRFLOW__CORE__SQL_ALCHEMY_CONN               |   Core     |   .env     | Sec. Mgr.    |     Yes      |
 +-----------------------------------------------+------------+------------+--------------+--------------+
-| AIRFLOW__CORE__LOCAL_EXECUTOR                 |   Airflow  |          meltano.yml      |     No       |
+| AIRFLOW__CORE__EXECUTOR                       |   Core     |          meltano.yml      |     No       |
 +-----------------------------------------------+------------+------------+--------------+--------------+
 
 

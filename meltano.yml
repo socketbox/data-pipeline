@@ -6,7 +6,6 @@ cli.log_level: warning
 project_id: 8d73bee1-5b29-467d-8df7-4d6c5d24b72b
 
 plugins:
-
   extractors:
   - name: tap-postgres--telemetry
     inherit_from: tap-postgres
@@ -46,7 +45,6 @@ plugins:
         replication-method: FULL_TABLE
       public-nutritionfacts_statisticspingback:
         replication-method: FULL_TABLE
-
   - name: tap-postgres--kdp
     inherit_from: tap-postgres
     variant: transferwise
@@ -145,7 +143,6 @@ plugins:
         replication-method: FULL_TABLE
       public-morango_transfersession:
         replication-method: FULL_TABLE
-
   - name: tap-postgres--studio
     inherit_from: tap-postgres
     variant: transferwise
@@ -238,13 +235,11 @@ plugins:
         replication-method: FULL_TABLE
       public-search_savedsearch:
         replication-method: FULL_TABLE
-
   loaders:
   - name: pipelinewise-target-bigquery
     namespace: target_bigquery
     pip_url: git+https://github.com/transferwise/pipelinewise-target-bigquery.git@v1.1.1
     executable: target-bigquery
-
   - name: pipelinewise-target-bigquery--telemetry
     inherit_from: pipelinewise-target-bigquery
     namespace: pipelinewise_target_bigquery
@@ -271,7 +266,6 @@ plugins:
     - name: batch_size_rows
     - name: add_metadata_columns
     - name: hard_delete
-
   - name: pipelinewise-target-bigquery--kdp
     inherit_from: pipelinewise-target-bigquery
     namespace: pipelinewise_target_bigquery
@@ -287,18 +281,17 @@ plugins:
       hard_delete: false
     executable: target-bigquery
     settings:
-      - name: location
-      - name: dataset_id
-      - name: project_id
-      - name: temp_schema
-      - name: default_target_schema
-      - name: schema_mapping
-      - name: default_target_schema_select_permission
-      - name: data_flattening_max_level
-      - name: batch_size_rows
-      - name: add_metadata_columns
-      - name: hard_delete
-
+    - name: location
+    - name: dataset_id
+    - name: project_id
+    - name: temp_schema
+    - name: default_target_schema
+    - name: schema_mapping
+    - name: default_target_schema_select_permission
+    - name: data_flattening_max_level
+    - name: batch_size_rows
+    - name: add_metadata_columns
+    - name: hard_delete
   - name: pipelinewise-target-bigquery--studio
     inherit_from: pipelinewise-target-bigquery
     namespace: pipelinewise_target_bigquery
@@ -314,21 +307,24 @@ plugins:
       hard_delete: false
     executable: target-bigquery
     settings:
-      - name: location
-      - name: dataset_id
-      - name: project_id
-      - name: temp_schema
-      - name: default_target_schema
-      - name: schema_mapping
-      - name: default_target_schema_select_permission
-      - name: data_flattening_max_level
-      - name: batch_size_rows
-      - name: add_metadata_columns
-      - name: hard_delete
-
+    - name: location
+    - name: dataset_id
+    - name: project_id
+    - name: temp_schema
+    - name: default_target_schema
+    - name: schema_mapping
+    - name: default_target_schema_select_permission
+    - name: data_flattening_max_level
+    - name: batch_size_rows
+    - name: add_metadata_columns
+    - name: hard_delete
   orchestrators:
   - name: airflow
     pip_url: psycopg2 apache-airflow==1.10.14 --constraint https://raw.githubusercontent.com/apache/airflow/constraints-1.10.14/constraints-3.7.txt
+    config:
+      core.dags_are_paused_at_creation: true
+      core.executor: LocalExecutor
+
   transformers:
   - name: dbt
     pip_url: dbt==0.16.1
@@ -339,31 +335,28 @@ plugins:
       transform/profile/profiles.yml: false
   - name: airflow
     pip_url: git+https://gitlab.com/meltano/files-airflow.git
-
 schedules:
 - name: telemetry-el
   extractor: tap-postgres--telemetry
   loader: pipelinewise-target-bigquery--telemetry
   transform: skip
-  interval: '0 4 * * *'
+  interval: 0 4 * * *
   start_date: 2021-03-04 17:25:38.390109
   env:
     TARGET_BIGQUERY_PROJECT_ID: telemetry-187418
-
 - name: kdp-el
   extractor: tap-postgres--kdp
   loader: pipelinewise-target-bigquery--kdp
   transform: skip
-  interval: '0 4 * * *'
+  interval: 0 4 * * *
   start_date: 2021-06-14 17:25:38.390109
   env:
     TARGET_BIGQUERY_PROJECT_ID: kolibri-data-portal
-
 - name: studio-el
   extractor: tap-postgres--studio
   loader: pipelinewise-target-bigquery--studio
   transform: skip
-  interval: '0 4 * * *'
+  interval: 0 4 * * *
   start_date: 2021-06-14 17:25:38.390109
   env:
     TARGET_BIGQUERY_PROJECT_ID: contentworkshop-159920

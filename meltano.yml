@@ -259,12 +259,12 @@ plugins:
     pip_url: git+https://github.com/transferwise/pipelinewise-target-bigquery.git@v1.1.1
     config:
       location: US
-      dataset_id: ledp
+      dataset_id: telemetry
       batch_size_rows: 100000
-      default_target_schema: ledp
+      default_target_schema: telemetry
       add_metadata_columns: true
       hard_delete: false
-      project_id: telemetry-187418
+      project_id: warehouse-266722
       temp_schema: tmp_ledp
     executable: target-bigquery
     settings:
@@ -357,7 +357,7 @@ schedules:
   interval: 0 4 * * 1,2,5
   start_date: 2021-03-04 17:25:38.390109
   env:
-    TARGET_BIGQUERY_PROJECT_ID: telemetry-187418
+    TARGET_BIGQUERY_PROJECT_ID: warehouse-266722
 - name: kdp-el
   extractor: tap-postgres--kdp
   loader: pipelinewise-target-bigquery--kdp
@@ -365,7 +365,7 @@ schedules:
   interval: 0 4 * * 1,2,5
   start_date: 2021-06-14 17:25:38.390109
   env:
-    TARGET_BIGQUERY_PROJECT_ID: kolibri-data-portal
+    TARGET_BIGQUERY_PROJECT_ID: warehouse-266722
 - name: studio-el-not-contentnode
   extractor: tap-postgres--studio-not-contentnode
   loader: pipelinewise-target-bigquery--studio
@@ -373,7 +373,7 @@ schedules:
   interval: 0 4 * * 0,2,4
   start_date: 2021-06-14 17:25:38.390109
   env:
-    TARGET_BIGQUERY_PROJECT_ID: contentworkshop-159920
+    TARGET_BIGQUERY_PROJECT_ID: warehouse-266722
 - name: studio-el-contentnode
   extractor: tap-postgres--studio-contentnode
   loader: pipelinewise-target-bigquery--studio
@@ -381,4 +381,4 @@ schedules:
   interval: 0 4 * * 0,2,4
   start_date: 2021-06-14 17:25:38.390109
   env:
-    TARGET_BIGQUERY_PROJECT_ID: contentworkshop-159920
+    TARGET_BIGQUERY_PROJECT_ID: warehouse-266722

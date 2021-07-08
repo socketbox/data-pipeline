@@ -143,7 +143,7 @@ plugins:
         replication-method: FULL_TABLE
       public-morango_transfersession:
         replication-method: FULL_TABLE
-  - name: tap-postgres--studio
+  - name: tap-postgres--studio-not-contentnode
     inherit_from: tap-postgres
     variant: transferwise
     pip_url: git+https://github.com/transferwise/pipelinewise-tap-postgres.git@v1.7.1
@@ -163,10 +163,8 @@ plugins:
     - public-contentcuration_channelset.*
     - public-contentcuration_channelset_editors.*
     - public-contentcuration_contentkind.*
-    - public-contentcuration_contentnode.*
     - public-contentcuration_contentnode_tags.*
     - public-contentcuration_contenttag.*
-    - public-contentcuration_exercise.*
     - public-contentcuration_file.*
     - public-contentcuration_fileformat.*
     - public-contentcuration_formatpreset.*
@@ -235,6 +233,21 @@ plugins:
         replication-method: FULL_TABLE
       public-search_savedsearch:
         replication-method: FULL_TABLE
+  - name: tap-postgres--studio-contentnode
+    inherit_from: tap-postgres
+    variant: transferwise
+    pip_url: git+https://github.com/transferwise/pipelinewise-tap-postgres.git@v1.7.1
+    config:
+      dbname: content-curation
+      port: 5432
+      default_replication_method: FULL_TABLE
+      filter_schemas: public
+    select:
+      - public-contentcuration_contentnode.*
+    metadata:
+      public-contecuration_contentnode:
+        replication-method: FULL_TABLE
+
   loaders:
   - name: pipelinewise-target-bigquery
     namespace: target_bigquery
@@ -247,7 +260,7 @@ plugins:
     config:
       location: US
       dataset_id: ledp
-      batch_size_rows: 500000
+      batch_size_rows: 100000
       default_target_schema: ledp
       add_metadata_columns: true
       hard_delete: false
@@ -302,7 +315,7 @@ plugins:
       project_id: contentworkshop-159920
       temp_schema: tmp_ledp
       default_target_schema: ledp
-      batch_size_rows: 500000
+      batch_size_rows: 100000
       add_metadata_columns: true
       hard_delete: false
     executable: target-bigquery
@@ -335,6 +348,7 @@ plugins:
       transform/profile/profiles.yml: false
   - name: airflow
     pip_url: git+https://gitlab.com/meltano/files-airflow.git
+
 schedules:
 - name: telemetry-el
   extractor: tap-postgres--telemetry
@@ -352,11 +366,19 @@ schedules:
   start_date: 2021-06-14 17:25:38.390109
   env:
     TARGET_BIGQUERY_PROJECT_ID: kolibri-data-portal
-- name: studio-el
-  extractor: tap-postgres--studio
+- name: studio-el-not-contentnode
+  extractor: tap-postgres--studio-not-contentnode
   loader: pipelinewise-target-bigquery--studio
   transform: skip
-  interval: 0 4 * * *
+  interval: 0 4 * * 0,2,4
+  start_date: 2021-06-14 17:25:38.390109
+  env:
+    TARGET_BIGQUERY_PROJECT_ID: contentworkshop-159920
+- name: studio-el-contentnode
+  extractor: tap-postgres--studio-contentnode
+  loader: pipelinewise-target-bigquery--studio
+  transform: skip
+  interval: 0 4 * * 0,2,4
   start_date: 2021-06-14 17:25:38.390109
   env:
     TARGET_BIGQUERY_PROJECT_ID: contentworkshop-159920

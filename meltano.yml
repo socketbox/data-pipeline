@@ -259,9 +259,9 @@ plugins:
     pip_url: git+https://github.com/transferwise/pipelinewise-target-bigquery.git@v1.1.1
     config:
       location: US
-      dataset_id: telemetry
+      dataset_id: ledp_telemetry
       batch_size_rows: 100000
-      default_target_schema: telemetry
+      default_target_schema: ledp_telemetry
       add_metadata_columns: true
       hard_delete: false
       project_id: warehouse-266722
@@ -285,10 +285,10 @@ plugins:
     pip_url: git+https://github.com/transferwise/pipelinewise-target-bigquery.git@v1.1.1
     config:
       location: US
-      dataset_id: ledp
+      dataset_id: ledp_kdp
       project_id: kolibri-data-portal
       temp_schema: tmp_ledp
-      default_target_schema: ledp
+      default_target_schema: ledp_kdp
       batch_size_rows: 50000
       add_metadata_columns: true
       hard_delete: false
@@ -311,10 +311,10 @@ plugins:
     pip_url: git+https://github.com/transferwise/pipelinewise-target-bigquery.git@v1.1.1
     config:
       location: US
-      dataset_id: ledp
+      dataset_id: ledp_studio
       project_id: contentworkshop-159920
       temp_schema: tmp_ledp
-      default_target_schema: ledp
+      default_target_schema: ledp_studio
       batch_size_rows: 100000
       add_metadata_columns: true
       hard_delete: false
